@@ -3,8 +3,13 @@ const mongoose = require('mongoose');
 const bookingSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    ref: 'User'
+  },
+  customerName: {
+    type: String,
+    required: [true, 'Please provide your name'],
+    trim: true,
+    maxlength: 80
   },
   package: {
     type: String,
@@ -44,6 +49,10 @@ const bookingSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide a contact email']
   },
+  marketingConsent: {
+    type: Boolean,
+    default: false
+  },
   createdAt: {
     type: Date,
     default: Date.now
@@ -54,9 +63,8 @@ const bookingSchema = new mongoose.Schema({
   }
 });
 
-bookingSchema.pre('save', function(next) {
+bookingSchema.pre('save', function() {
   this.updatedAt = Date.now();
-  next();
 });
 
 module.exports = mongoose.model('Booking', bookingSchema);

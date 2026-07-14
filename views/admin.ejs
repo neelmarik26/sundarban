@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title><%= title %></title><link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="login-card" id="loginCard">
+      <a class="back" href="/">← Back to website</a>
+      <span class="eyebrow">Sundarban Nova</span><h1>Admin workspace</h1>
+      <p>Sign in with an account whose role is <code>admin</code>.</p>
+      <form id="loginForm"><label>Email<input required type="email" id="loginEmail" autocomplete="email"></label><label>Password<input required type="password" id="loginPassword" autocomplete="current-password"></label><p class="status" id="loginStatus"></p><button type="submit">Sign in <span>→</span></button></form>
+    </section>
+    <section class="dashboard hidden" id="dashboard">
+      <header><div><a class="back" href="/">← Website</a><h1>Travel control centre</h1><p>Manage enquiries, tours and consent-based customer emails.</p></div><button class="outline" id="logout">Sign out</button></header>
+      <p class="status" id="appStatus" role="status"></p>
+      <div class="metrics" id="metrics"></div>
+      <div class="grid">
+        <section class="panel wide"><div class="panel-head"><div><span class="eyebrow">Bookings</span><h2>Customer enquiries</h2><p>Completed trips are retained securely for reporting and opted-in future campaigns.</p></div><button class="outline" id="refreshBookings">Refresh</button></div><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Tour & date</th><th>Guests</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead><tbody id="bookingRows"></tbody></table></div></section>
+        <section class="panel wide"><span class="eyebrow">Completed trips</span><h2>Review invitations</h2><p>Completed trips are kept here for records and future consent-based campaigns.</p><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Trip</th><th>Marketing</th><th>Review</th></tr></thead><tbody id="completedRows"></tbody></table></div></section>
+        <section class="panel"><span class="eyebrow">Tour editor</span><h2 id="tourHeading">Add a new tour</h2><form id="tourForm"><input type="hidden" id="tourId"><label>Tour title<input required id="tourTitle" maxlength="100"></label><label>Duration<input required id="tourDuration" placeholder="3 days / 2 nights"></label><label>Price per person (₹)<input required type="number" min="0" id="tourPrice"></label><label>Description<textarea required id="tourDescription" maxlength="350"></textarea></label><label>Highlights <small>Comma separated</small><input id="tourHighlights" placeholder="Boat safari, meals, guide"></label><label>Album image path <small>Add the image to <code>public/album</code>, then enter its path.</small><input id="tourImage" value="/album/sundarban-river.jpg" pattern="/album/.*" placeholder="/album/your-tour.jpg"></label><label class="check"><input id="tourActive" type="checkbox" checked> Visible on website</label><div class="actions"><button type="submit">Save tour</button><button type="button" class="outline" id="clearTour">Clear</button></div></form></section>
+        <section class="panel"><span class="eyebrow">Email campaign</span><h2>Send an update</h2><p>Bulk email is sent only to customers who opted in. Use a recipient email below to send a separate email.</p><form id="emailForm"><label>Subject<input required id="emailSubject" maxlength="150"></label><label>Message<textarea required id="emailMessage" rows="6"></textarea></label><label>Separate recipient <small>Leave empty for all opted-in customers</small><input type="email" id="emailRecipient" placeholder="guest@example.com"></label><label>Email attachment <small>Optional: add an image, PDF, or document up to 8 MB.</small><input id="emailAttachment" type="file"></label><button type="submit">Send email <span>→</span></button></form></section>
+        <section class="panel"><span class="eyebrow">Homepage content</span><h2>Edit the hero</h2><form id="settingsForm"><label>Small heading<input id="settingEyebrow" maxlength="120"></label><label>Main heading<textarea id="settingTitle" required maxlength="160" rows="3"></textarea></label><label>Introduction<textarea id="settingText" required maxlength="420" rows="5"></textarea></label><button type="submit">Publish homepage text</button></form></section>
+        <section class="panel wide"><span class="eyebrow">Published tours</span><h2>Website tour list</h2><div class="tour-list" id="tourList"></div></section>
+        <section class="panel wide"><div class="panel-head"><div><span class="eyebrow">Gallery manager</span><h2>Upload local gallery photos</h2></div></div><form id="galleryForm" class="upload-form"><label>Photo<input id="galleryImage" required type="file" accept="image/jpeg,image/png,image/webp,image/gif"></label><label>Alt description<input id="galleryAlt" required maxlength="140" placeholder="Boat journey at sunrise"></label><label class="check"><input id="galleryVisible" type="checkbox" checked> Show on public gallery</label><button type="submit">Upload image</button></form><div class="media-grid" id="mediaGrid"></div></section>
+        <section class="panel wide"><span class="eyebrow">Review moderation</span><h2>Guest reviews awaiting a decision</h2><div class="table-wrap"><table><thead><tr><th>Guest</th><th>Tour & rating</th><th>Review</th><th>Status</th></tr></thead><tbody id="reviewRows"></tbody></table></div></section>
+      </div>
+    </section>
+  </main><script src="/js/admin.js"></script>
+</body></html>

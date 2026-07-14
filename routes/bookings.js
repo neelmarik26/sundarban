@@ -2,137 +2,78 @@ const express = require('express');
 const router = express.Router();
 const Booking = require('../models/Booking');
 const User = require('../models/User');
-const { protect } = require('../middleware/auth');
+const Tour = require('../models/Tour');
+const { protect, admin } = require('../middleware/auth');
+const nodemailer = require('nodemailer');
 
-// @desc    Create a new booking
-// @route   POST /api/bookings
-// @access  Private
-router.post('/', protect, async (req, res) => {
-  try {
-    const {
-      package: packageName,
-      pickup,
-      travelDate,
-      numberOfPeople,
-      totalPrice,
-      specialRequests,
-      contactPhone,
-      contactEmail
-    } = req.body;
+const escapeHtml = (value) => String(value || '').replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]);
 
-    const booking = await Booking.create({
-      user: req.user.id,
-      package: packageName,
-      pickup,
-      travelDate,
-      numberOfPeople,
-      totalPrice,
-      specialRequests,
-      contactPhone,
-      contactEmail
-    });
+async function sendBookingConfirmation(booking) {
+  if (!process.env.EMAIL || !process.env.EMAIL_PASSWORD) return;
+  const companyName = process.env.PERSON_NAME || 'Sundarban Nova Travels';
+  const companyPhone = process.env.PERSON_MOBILE || '+91 99079 47625';
+  const transporter = nodemailer.createTransport({ service: process.env.EMAIL_SERVICE || 'gmail', auth: { user: process.env.EMAIL, pass: process.env.EMAIL_PASSWORD } });
+  const date = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' }).format(new Date(booking.travelDate));
+  await transporter.sendMail({
+    from: `${companyName} <${process.env.EMAIL}>`,
+    to: booking.contactEmail,
+    subject: `Booking request received — ${booking.package}`,
+    text: `Hello ${booking.customerName},\n\nYour booking request for ${booking.package} on ${date} has been received. Our team will contact you soon to confirm availability and next steps.\n\nGuests: ${booking.numberOfPeople}\nEstimated total: ₹${booking.totalPrice.toLocaleString('en-IN')}\n\nNeed help? Call us at ${companyPhone}.\n\n${companyName}`,
+    html: `<div style="max-width:620px;margin:auto;background:#f4f8f4;padding:32px;font-family:Arial,sans-serif;color:#10201a"><div style="background:#0b6e4f;color:#fff;padding:26px;border-radius:18px 18px 0 0"><div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">Sundarban Nova Travels</div><h1 style="margin:10px 0 0;font-size:28px">Your request is safely with us.</h1></div><div style="background:#fff;padding:30px;border-radius:0 0 18px 18px"><p>Hello ${escapeHtml(booking.customerName)},</p><p>Thank you for choosing us. Your booking request has been submitted successfully, and our team will contact you soon to confirm availability and the next steps.</p><div style="padding:18px;border-radius:12px;background:#edf7f0"><strong>${escapeHtml(booking.package)}</strong><br><span style="color:#567065">${date} · ${booking.numberOfPeople} guest${booking.numberOfPeople > 1 ? 's' : ''}</span><br><strong style="display:block;margin-top:8px">Estimated total: ₹${booking.totalPrice.toLocaleString('en-IN')}</strong></div><p style="margin-top:26px">Need help sooner? Call or WhatsApp us at <a style="color:#0b6e4f;font-weight:700" href="tel:${escapeHtml(companyPhone)}">${escapeHtml(companyPhone)}</a>.</p><p style="margin-bottom:0">Warmly,<br><strong>${escapeHtml(companyName)}</strong></p></div></div>`
+  });
+}
 
-    // Add booking to user's bookings array
-    await User.findByIdAndUpdate(req.user.id, {
-      $push: { bookings: booking._id }
-    });
-
-    res.status(201).json(booking);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+const createBooking = async (req, res, userId) => {
+  const { customerName, package: packageName, pickup, travelDate, numberOfPeople, specialRequests, contactPhone, contactEmail, marketingConsent } = req.body;
+  const tour = await Tour.findOne({ title: packageName, active: true });
+  if (!tour) return res.status(400).json({ message: 'Please choose an available tour.' });
+  const guests = Number(numberOfPeople);
+  if (!customerName || !contactPhone || !contactEmail || !travelDate || !Number.isInteger(guests) || guests < 1) {
+    return res.status(400).json({ message: 'Please complete all required booking fields.' });
   }
+  const booking = await Booking.create({
+    user: userId,
+    customerName,
+    package: tour.title,
+    pickup,
+    travelDate,
+    numberOfPeople: guests,
+    totalPrice: tour.price * guests,
+    specialRequests,
+    contactPhone,
+    contactEmail: String(contactEmail).toLowerCase(),
+    marketingConsent: marketingConsent === true || marketingConsent === 'true'
+  });
+  if (userId) await User.findByIdAndUpdate(userId, { $addToSet: { bookings: booking._id } });
+  sendBookingConfirmation(booking).catch((error) => console.error('Booking confirmation email failed:', error.message));
+  res.status(201).json(booking);
+};
+
+router.post('/public', async (req, res) => {
+  try { await createBooking(req, res); }
+  catch (error) { res.status(400).json({ message: error.message }); }
 });
 
-// @desc    Get all bookings for logged in user
-// @route   GET /api/bookings
-// @access  Private
+router.post('/', protect, async (req, res) => {
+  try { await createBooking(req, res, req.user.id); }
+  catch (error) { res.status(400).json({ message: error.message }); }
+});
+
 router.get('/', protect, async (req, res) => {
   try {
-    const bookings = await Booking.find({ user: req.user.id })
-      .sort({ createdAt: -1 })
-      .populate('user', 'name email phone');
-    res.json(bookings);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+    // Completed trips remain stored for reporting and opted-in future campaigns,
+    // but do not clutter the active customer-enquiry workspace.
+    const query = req.user.role === 'admin' ? { status: { $ne: 'completed' } } : { user: req.user.id };
+    res.json(await Booking.find(query).sort({ createdAt: -1 }).populate('user', 'name email phone'));
+  } catch (error) { res.status(500).json({ message: error.message }); }
 });
 
-// @desc    Get single booking
-// @route   GET /api/bookings/:id
-// @access  Private
-router.get('/:id', protect, async (req, res) => {
+router.put('/:id/status', protect, admin, async (req, res) => {
   try {
-    const booking = await Booking.findById(req.params.id)
-      .populate('user', 'name email phone');
-    
-    if (!booking) {
-      return res.status(404).json({ message: 'Booking not found' });
-    }
-
-    // Check if booking belongs to user or user is admin
-    if (booking.user._id.toString() !== req.user.id && req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Not authorized to view this booking' });
-    }
-
+    const booking = await Booking.findByIdAndUpdate(req.params.id, { status: req.body.status }, { returnDocument: 'after', runValidators: true });
+    if (!booking) return res.status(404).json({ message: 'Booking not found' });
     res.json(booking);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// @desc    Update booking status (admin only)
-// @route   PUT /api/bookings/:id/status
-// @access  Private/Admin
-router.put('/:id/status', protect, async (req, res) => {
-  try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Not authorized as admin' });
-    }
-
-    const booking = await Booking.findByIdAndUpdate(
-      req.params.id,
-      { status: req.body.status },
-      { new: true, runValidators: true }
-    );
-
-    if (!booking) {
-      return res.status(404).json({ message: 'Booking not found' });
-    }
-
-    res.json(booking);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// @desc    Cancel booking
-// @route   PUT /api/bookings/:id/cancel
-// @access  Private
-router.put('/:id/cancel', protect, async (req, res) => {
-  try {
-    const booking = await Booking.findById(req.params.id);
-
-    if (!booking) {
-      return res.status(404).json({ message: 'Booking not found' });
-    }
-
-    // Check if booking belongs to user
-    if (booking.user.toString() !== req.user.id && req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Not authorized to cancel this booking' });
-    }
-
-    // Check if booking can be cancelled
-    if (booking.status === 'cancelled' || booking.status === 'completed') {
-      return res.status(400).json({ message: 'Cannot cancel this booking' });
-    }
-
-    booking.status = 'cancelled';
-    await booking.save();
-
-    res.json(booking);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+  } catch (error) { res.status(400).json({ message: error.message }); }
 });
 
 module.exports = router;

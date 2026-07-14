@@ -29,11 +29,10 @@
         <a href="#food">Cuisine</a>
         <a href="#destinations">Explore</a>
         <a href="#gallery">Gallery</a>
-        <a href="#contact">Contact</a>
       </div>
       <div class="nav-actions">
-        <a class="phone-pill" href="tel:+919907947625">+91 99079 47625</a>
-        <button class="btn btn-primary" data-modal="bookModal">Book Now</button>
+        <a class="phone-pill" href="tel:<%= companyPhoneHref %>"><%= companyPhone %></a>
+          <button class="btn btn-primary" data-modal="bookModal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 2v4M18 2v4M3 10h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></svg>Book now</button>
       </div>
     </div>
   </nav>
@@ -42,15 +41,12 @@
     <div class="hero-media" role="img" aria-label="Boat safari in the Sundarbans"></div>
     <div class="container hero-content">
       <div class="hero-copy glass-panel">
-        <div class="eyebrow">UNESCO World Heritage | West Bengal | Since 2018</div>
-        <h1>Discover the wild, tidal beauty of the Sundarbans.</h1>
-        <p>Private and shared boat safaris, forest permits, Kolkata pickup, warm local hospitality, and memorable Bengali
+        <div class="eyebrow" id="heroEyebrow">UNESCO World Heritage | West Bengal | Since 2018</div>
+        <h1 id="heroTitle">Discover the wild, tidal beauty of the Sundarbans.</h1>
+        <p id="heroText">Private and shared boat safaris, forest permits, Kolkata pickup, warm local hospitality, and memorable Bengali
           meals arranged end to end.</p>
         <div class="hero-actions">
-          <button class="btn btn-gold" data-modal="bookModal">Plan My Trip</button>
-          <a class="btn btn-glass"
-            href="https://wa.me/919907947625?text=Hello%20Sundarban%20Nova%20Travels%2C%20I%20want%20to%20know%20about%20Sundarban%20packages"
-            target="_blank" rel="noopener">WhatsApp</a>
+          <button class="btn btn-gold" data-modal="bookModal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 2v4M18 2v4M3 10h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></svg>Plan my trip</button>
           <a class="btn btn-light" href="#packages">View Packages</a>
         </div>
       </div>
@@ -64,10 +60,10 @@
         </figcaption>
       </figure>
       <div class="hero-stats glass-panel" aria-label="Tour highlights">
-        <div><strong>4.9/5</strong><span>847 guest reviews</span></div>
+        <div><strong>Real</strong><span>Guest feedback</span></div>
         <div><strong>Permits</strong><span>Forest and boat included</span></div>
         <div><strong>Pickup</strong><span>Kolkata, Canning, Godkhali</span></div>
-        <div><strong>24/7</strong><span>WhatsApp travel support</span></div>
+        <div><strong>24/7</strong><span>Travel support by phone</span></div>
       </div>
     </div>
   </header>
@@ -190,12 +186,16 @@
       <div class="container">
         <div class="section-head split">
           <div>
-            <span class="badge-soft">Guest Love</span>
-            <h2>Loved for care, not just sightings.</h2>
+            <span class="badge-soft">Guest Reviews</span>
+            <h2>Stories from real travellers.</h2>
           </div>
-          <p><strong>4.9/5</strong> from families, couples, student groups and international guests.</p>
         </div>
         <div class="review-grid" id="reviewGrid"></div>
+        <form class="review-form" id="reviewForm">
+          <div><span class="badge-soft">Share your experience</span><h3>Travelled with us?</h3><p>Your honest review helps future guests plan with confidence.</p></div>
+          <div class="form-grid"><label>Full Name<input required name="name" maxlength="60" autocomplete="name" placeholder="Your name"></label><label>Email<input required name="email" type="email" autocomplete="email" placeholder="you@example.com"></label><label>Tour<select name="tour"><option>1 Day - Day Cruise</option><option>2D / 1N - Classic Mangrove</option><option>3D / 2N - Tiger Trail</option><option>4D / 3N - Grand Expedition</option><option>Another tour</option></select></label><label>Rating<select required name="rating"><option value="5">5 — Excellent</option><option value="4">4 — Very good</option><option value="3">3 — Good</option><option value="2">2 — Fair</option><option value="1">1 — Poor</option></select></label><label class="full">Your review<textarea required name="comment" minlength="15" maxlength="700" rows="4" placeholder="Tell future guests about your experience…"></textarea></label></div>
+          <div><button class="btn btn-primary" type="submit">Submit review</button><p class="form-status" id="reviewStatus" role="status" aria-live="polite"></p></div>
+        </form>
       </div>
     </section>
 
@@ -211,72 +211,6 @@
       </div>
     </section>
 
-    <section id="contact" class="contact-section">
-      <div class="container contact-grid">
-        <div>
-          <span class="badge-soft">Plan With Us</span>
-          <h2>Get a trip plan on WhatsApp.</h2>
-          <p class="lead">Share your date, pickup and group size. We will reply with options, seat availability and next
-            steps.</p>
-          <form id="contactForm">
-            <div class="form-grid">
-              <label>Full Name<input required name="name" autocomplete="name" placeholder="Aarav Sharma"></label>
-              <label>Phone / WhatsApp<input required name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 ..."></label>
-              <label>Package<select name="pkg">
-                  <option>1 Day - Day Cruise</option>
-                  <option>2D / 1N - Classic</option>
-                  <option>3D / 2N - Tiger Trail</option>
-                  <option>4D / 3N - Grand Mangrove</option>
-                </select></label>
-              <label>Pickup<select name="pickup">
-                  <option>Kolkata to Kolkata</option>
-                  <option>Canning to Canning</option>
-                  <option>Godkhali to Godkhali</option>
-                </select></label>
-              <label class="full">Message<textarea name="msg" rows="3"
-                  placeholder="Dates, guests, food preference..."></textarea></label>
-            </div>
-            <button class="btn btn-primary" type="submit">Send on WhatsApp</button>
-            <a class="btn btn-outline-dark" href="tel:+919907947625">Call Now</a>
-          </form>
-        </div>
-        <aside class="map-card">
-          <span class="badge-soft">Godkhali Jetty Office</span>
-          <h3>Sundarban Tiger Reserve, West Bengal</h3>
-          <p>Licensed local crew, verified permits and live coordination from pickup to return.</p>
-          <div class="map-metrics">
-            <div><span>Latitude</span><strong>22.134 N</strong></div>
-            <div><span>Longitude</span><strong>88.801 E</strong></div>
-            <div><span>Permit Status</span><strong>Open</strong></div>
-            <div><span>Reply Time</span><strong>2 min avg</strong></div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section id="payment">
-      <div class="container payment-grid">
-        <div>
-          <span class="badge-soft">Secure Payment</span>
-          <h2>Pay instantly. Confirm your seat.</h2>
-          <p class="lead">Use UPI, then send your screenshot on WhatsApp for instant ticket confirmation and invoice.
-          </p>
-          <div class="upi-card">
-            <span>UPI ID</span>
-            <strong>9907947625@okaxis</strong>
-            <button class="copy-chip" id="copyUpi" type="button">Copy UPI</button>
-          </div>
-        </div>
-        <div class="qr-card">
-          <div class="qr-art" aria-hidden="true"></div>
-          <strong>Scan and Pay</strong>
-          <span>PhonePe, GPay, BHIM and Paytm supported</span>
-          <a class="btn btn-primary"
-            href="https://wa.me/919907947625?text=Hi%20I%20paid%20for%20Sundarban%20Trip%20-%20Please%20confirm"
-            target="_blank" rel="noopener">Send Payment Screenshot</a>
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer>
@@ -289,10 +223,10 @@
         <h4>Explore</h4><a href="#packages">Packages</a><a href="#food">Food Menu</a><a href="#gallery">Gallery</a>
       </div>
       <div>
-        <h4>Support</h4><a href="#pickup">Pickup Options</a><a href="#faq">FAQs</a><a href="#contact">Contact</a>
+        <h4>Support</h4><a href="#pickup">Pickup Options</a><a href="#faq">FAQs</a><a href="tel:<%= companyPhoneHref %>">Call us</a>
       </div>
       <div>
-        <h4>Contact</h4><a href="tel:+919907947625">+91 99079 47625</a><a
+        <h4>Contact</h4><a href="tel:<%= companyPhoneHref %>"><%= companyPhone %></a><a
           href="mailto:hello@sundarbannovatravels.com">hello@sundarbannovatravels.com</a><span>Godkhali Jetty, WB
           743370</span>
       </div>
@@ -301,9 +235,7 @@
   </footer>
 
   <div class="float-bar">
-    <a class="float-btn call" href="tel:+919907947625" aria-label="Call">Call</a>
-    <a class="float-btn wa" href="https://wa.me/919907947625" target="_blank" rel="noopener"
-      aria-label="WhatsApp">WA</a>
+    <a class="float-btn call" href="tel:<%= companyPhoneHref %>" aria-label="Call us">Call</a>
   </div>
 
   <div id="lightbox">
@@ -317,7 +249,7 @@
         aria-label="Close booking form">Close</button>
       <span class="badge-soft">Instant Quote</span>
       <h2 id="bookTitle">Book your Sundarban expedition</h2>
-      <p>Prefilled WhatsApp to +91 99079 47625. No OTP, no spam.</p>
+      <p>Your request is saved securely. Our team will contact you by phone or email.</p>
       <form id="bookingForm">
         <label>Package Interested<select id="b_pkg">
             <option>1 Day - Day Cruise Rs. 1,499</option>
@@ -331,14 +263,16 @@
           </select></label>
         <div class="form-grid">
           <label>Full Name<input id="b_name" required autocomplete="name" placeholder="Your name"></label>
-          <label>WhatsApp Number<input id="b_phone" required type="tel" inputmode="tel" autocomplete="tel" placeholder="+91..."></label>
-          <label>Travel Date<input id="b_date" type="date" required></label>
-          <label>Guests<select id="b_guests">
-              <option>2 Guests</option>
-              <option>3-4 Guests</option>
-              <option>5-8 Guests</option>
-              <option>9+ Group</option>
-            </select></label>
+          <label>Phone Number<input id="b_phone" required type="tel" inputmode="tel" autocomplete="tel" placeholder="+91..."></label>
+          <label class="full">Email for confirmation<input id="b_email" required type="email" autocomplete="email" placeholder="you@example.com"></label>
+          <label>Travel Date
+            <div class="date-picker" id="datePicker">
+              <input id="b_date" required readonly placeholder="Choose a travel date" aria-haspopup="dialog" aria-expanded="false">
+              <button class="date-trigger" type="button" aria-label="Choose travel date"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 2v4M18 2v4M3 10h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></svg></button>
+              <div class="calendar-popover" id="calendarPopover" role="dialog" aria-label="Choose a travel date"></div>
+            </div>
+          </label>
+          <label>Number of Guests<input id="b_guests" type="number" min="1" max="100" value="2" required inputmode="numeric" placeholder="e.g. 4"></label>
           <label>Pickup<select id="b_pickup">
               <option>Kolkata to Kolkata</option>
               <option>Canning to Canning</option>
@@ -354,9 +288,17 @@
           <label class="full">Message<textarea id="b_msg" rows="2"
               placeholder="Any special request?"></textarea></label>
         </div>
-        <button type="submit" class="btn btn-primary">Continue on WhatsApp</button>
+        <label class="consent"><input id="b_marketing" type="checkbox"> Send me occasional tour offers and travel updates.</label>
+        <p class="form-status" id="bookingStatus" role="status" aria-live="polite"></p>
+        <button type="submit" class="btn btn-primary"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 2v4M18 2v4M3 10h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></svg>Request booking</button>
       </form>
     </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="success-overlay" id="successOverlay" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+    <div class="success-card"><div class="success-icon">✓</div><span class="badge-soft">Request received</span><h2 id="successTitle">Your Sundarban journey starts here.</h2><p>Your booking request was submitted successfully. Our team will contact you soon to confirm the availability and next steps.</p><a class="success-contact" href="tel:<%= companyPhoneHref %>">Need help now? Call <%= companyPhone %></a><button class="btn btn-primary" type="button" id="successClose">Continue exploring</button></div>
   </div>
 
   <script src="/js/mainpagenew.js"></script>
