@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+    <%= typeof title !=='undefined' ? title : 'Sundarban Nova Travels' %>
+  </title>
+  <meta name="description"
+    content="Beautiful Sundarban tour packages with Kolkata pickup, forest permits, boat safari, Bengali meals and guided wildlife experiences.">
+  <link rel="stylesheet" href="/css/mainpage.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <nav class="navbar" id="mainNav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Sundarban Nova Travels home">
+        <img src="/album/sundarban-nova-mark.png" alt="" class="brand-mark">
+        <span>Sundarban Nova Travels</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-menu" id="navLinks">
+        <a href="#pickup">Pickup</a>
+        <a href="#packages">Packages</a>
+        <a href="#food">Cuisine</a>
+        <a href="#destinations">Explore</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <a class="phone-pill" href="tel:+919907947625">+91 99079 47625</a>
+        <button class="btn btn-primary" data-modal="bookModal">Book Now</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="hero-media" role="img" aria-label="Boat safari in the Sundarbans"></div>
+    <div class="container hero-content">
+      <div class="hero-copy glass-panel">
+        <div class="eyebrow">UNESCO World Heritage | West Bengal | Since 2018</div>
+        <h1>Discover the wild, tidal beauty of the Sundarbans.</h1>
+        <p>Private and shared boat safaris, forest permits, Kolkata pickup, warm local hospitality, and memorable Bengali
+          meals arranged end to end.</p>
+        <div class="hero-actions">
+          <button class="btn btn-gold" data-modal="bookModal">Plan My Trip</button>
+          <a class="btn btn-glass"
+            href="https://wa.me/919907947625?text=Hello%20Sundarban%20Nova%20Travels%2C%20I%20want%20to%20know%20about%20Sundarban%20packages"
+            target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn btn-light" href="#packages">View Packages</a>
+        </div>
+      </div>
+      <figure class="hero-picture glass-panel">
+        <img
+          src="/album/sundarban-river.jpg"
+          alt="Peaceful boat journey through green waterways">
+        <figcaption>
+          <strong>Forest boat safari</strong>
+          <span>Permits, meals and pickup handled by local experts.</span>
+        </figcaption>
+      </figure>
+      <div class="hero-stats glass-panel" aria-label="Tour highlights">
+        <div><strong>4.9/5</strong><span>847 guest reviews</span></div>
+        <div><strong>Permits</strong><span>Forest and boat included</span></div>
+        <div><strong>Pickup</strong><span>Kolkata, Canning, Godkhali</span></div>
+        <div><strong>24/7</strong><span>WhatsApp travel support</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section id="pickup">
+      <div class="container">
+        <div class="section-head split">
+          <div>
+            <span class="badge-soft">Seamless Logistics</span>
+            <h2>Choose your departure. We handle the rest.</h2>
+          </div>
+          <p>AC transfers, permits, meals, guided boat safaris and stays are bundled into simple, transparent packages
+            for couples, families and groups.</p>
+        </div>
+        <div class="pickup-grid">
+          <article class="pickup-card">
+            <div class="icon-bubble">K</div>
+            <span class="mini-label">Most booked</span>
+            <h3>Kolkata to Kolkata</h3>
+            <p>Doorstep AC car, airport or Science City pickup, breakfast en route and a tour captain from start to
+              finish.</p>
+            <ul>
+              <li>AC sedan, SUV or traveller</li>
+              <li>Morning departure support</li>
+              <li>Best for first-time visitors</li>
+            </ul>
+            <button class="btn btn-outline-dark" data-pickup="Kolkata to Kolkata" data-modal="bookModal">Select
+              Pickup</button>
+          </article>
+          <article class="pickup-card">
+            <div class="icon-bubble">C</div>
+            <h3>Canning to Canning</h3>
+            <p>Ideal for guests arriving by local train. Meet-and-greet, auto transfer and boat boarding are coordinated
+              for you.</p>
+            <ul>
+              <li>Station assistance</li>
+              <li>Quick route to Godkhali</li>
+              <li>Budget friendly</li>
+            </ul>
+            <button class="btn btn-outline-dark" data-pickup="Canning to Canning" data-modal="bookModal">Select
+              Pickup</button>
+          </article>
+          <article class="pickup-card accent">
+            <div class="icon-bubble">G</div>
+            <span class="mini-label">Direct jetty</span>
+            <h3>Godkhali to Godkhali</h3>
+            <p>For self-drive guests who want secure parking, the fastest boarding and flexible check-in at the jetty.
+            </p>
+            <ul>
+              <li>Reserved jetty slot</li>
+              <li>Sunrise check-in available</li>
+              <li>Custom timing support</li>
+            </ul>
+            <button class="btn btn-gold" data-pickup="Godkhali to Godkhali" data-modal="bookModal">Customize
+              Pickup</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="packages" class="soft-section">
+      <div class="container">
+        <div class="section-head center">
+          <span class="badge-soft">Signature Itineraries</span>
+          <h2>Ten journeys crafted for real Sundarban days.</h2>
+          <p>Every package includes a licensed boat, forest permits, naturalist guidance, meals, RO water and clear
+            inclusions.</p>
+        </div>
+        <div class="package-grid" id="packageGrid"></div>
+      </div>
+    </section>
+
+    <section id="food">
+      <div class="container food-layout">
+        <div>
+          <span class="badge-soft">Bengali Kitchen</span>
+          <h2>A moving feast on the river.</h2>
+          <p class="lead">Fresh catch, mustard oil tempering, clean kitchens and flexible veg, Jain and kids menus make
+            the meals feel like part of the journey.</p>
+          <div class="feature-grid">
+            <div><strong>Hygienic Kitchen</strong><span>Sanitized daily</span></div>
+            <div><strong>RO Water</strong><span>Unlimited refills</span></div>
+            <div><strong>Fresh Cuisine</strong><span>Fish, prawn, chicken</span></div>
+            <div><strong>Custom Meals</strong><span>Veg, Jain, kids</span></div>
+          </div>
+          <button class="btn btn-primary" data-modal="bookModal">Taste The Menu</button>
+        </div>
+        <div>
+          <div class="menu-tabs" id="menuTabs"></div>
+          <div class="menu-panel" id="menuPanel"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="destinations" class="soft-section">
+      <div class="container">
+        <div class="section-head center">
+          <span class="badge-soft">13 Signature Points</span>
+          <h2>Where the river makes the map.</h2>
+        </div>
+        <div class="dest-grid" id="destGrid"></div>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <div class="container">
+        <div class="section-head split">
+          <div>
+            <span class="badge-soft">Field Notes</span>
+            <h2>Real light, real water, real memories.</h2>
+          </div>
+          <p>Tap any image to open the travel gallery.</p>
+        </div>
+        <div class="masonry" id="masonry"></div>
+      </div>
+    </section>
+
+    <section id="reviews" class="soft-section">
+      <div class="container">
+        <div class="section-head split">
+          <div>
+            <span class="badge-soft">Guest Love</span>
+            <h2>Loved for care, not just sightings.</h2>
+          </div>
+          <p><strong>4.9/5</strong> from families, couples, student groups and international guests.</p>
+        </div>
+        <div class="review-grid" id="reviewGrid"></div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="container faq-layout">
+        <div>
+          <span class="badge-soft">Support</span>
+          <h2>Everything you ask before boarding.</h2>
+          <p class="lead">Clear answers on safety, permits, food, cancellations and timing.</p>
+          <div class="support-card">Need a human? <a href="tel:+919907947625">+91 99079 47625</a> answers quickly.</div>
+        </div>
+        <div id="faqAcc"></div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+      <div class="container contact-grid">
+        <div>
+          <span class="badge-soft">Plan With Us</span>
+          <h2>Get a trip plan on WhatsApp.</h2>
+          <p class="lead">Share your date, pickup and group size. We will reply with options, seat availability and next
+            steps.</p>
+          <form id="contactForm">
+            <div class="form-grid">
+              <label>Full Name<input required name="name" autocomplete="name" placeholder="Aarav Sharma"></label>
+              <label>Phone / WhatsApp<input required name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 ..."></label>
+              <label>Package<select name="pkg">
+                  <option>1 Day - Day Cruise</option>
+                  <option>2D / 1N - Classic</option>
+                  <option>3D / 2N - Tiger Trail</option>
+                  <option>4D / 3N - Grand Mangrove</option>
+                </select></label>
+              <label>Pickup<select name="pickup">
+                  <option>Kolkata to Kolkata</option>
+                  <option>Canning to Canning</option>
+                  <option>Godkhali to Godkhali</option>
+                </select></label>
+              <label class="full">Message<textarea name="msg" rows="3"
+                  placeholder="Dates, guests, food preference..."></textarea></label>
+            </div>
+            <button class="btn btn-primary" type="submit">Send on WhatsApp</button>
+            <a class="btn btn-outline-dark" href="tel:+919907947625">Call Now</a>
+          </form>
+        </div>
+        <aside class="map-card">
+          <span class="badge-soft">Godkhali Jetty Office</span>
+          <h3>Sundarban Tiger Reserve, West Bengal</h3>
+          <p>Licensed local crew, verified permits and live coordination from pickup to return.</p>
+          <div class="map-metrics">
+            <div><span>Latitude</span><strong>22.134 N</strong></div>
+            <div><span>Longitude</span><strong>88.801 E</strong></div>
+            <div><span>Permit Status</span><strong>Open</strong></div>
+            <div><span>Reply Time</span><strong>2 min avg</strong></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="payment">
+      <div class="container payment-grid">
+        <div>
+          <span class="badge-soft">Secure Payment</span>
+          <h2>Pay instantly. Confirm your seat.</h2>
+          <p class="lead">Use UPI, then send your screenshot on WhatsApp for instant ticket confirmation and invoice.
+          </p>
+          <div class="upi-card">
+            <span>UPI ID</span>
+            <strong>9907947625@okaxis</strong>
+            <button class="copy-chip" id="copyUpi" type="button">Copy UPI</button>
+          </div>
+        </div>
+        <div class="qr-card">
+          <div class="qr-art" aria-hidden="true"></div>
+          <strong>Scan and Pay</strong>
+          <span>PhonePe, GPay, BHIM and Paytm supported</span>
+          <a class="btn btn-primary"
+            href="https://wa.me/919907947625?text=Hi%20I%20paid%20for%20Sundarban%20Trip%20-%20Please%20confirm"
+            target="_blank" rel="noopener">Send Payment Screenshot</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <h3>Sundarban Nova Travels</h3>
+        <p>Low-impact Sundarban expeditions with local crews, warm service and careful planning.</p>
+      </div>
+      <div>
+        <h4>Explore</h4><a href="#packages">Packages</a><a href="#food">Food Menu</a><a href="#gallery">Gallery</a>
+      </div>
+      <div>
+        <h4>Support</h4><a href="#pickup">Pickup Options</a><a href="#faq">FAQs</a><a href="#contact">Contact</a>
+      </div>
+      <div>
+        <h4>Contact</h4><a href="tel:+919907947625">+91 99079 47625</a><a
+          href="mailto:hello@sundarbannovatravels.com">hello@sundarbannovatravels.com</a><span>Godkhali Jetty, WB
+          743370</span>
+      </div>
+    </div>
+    <div class="container footer-bottom">© <span id="yr"></span> Sundarban Nova Travels. All rights reserved.</div>
+  </footer>
+
+  <div class="float-bar">
+    <a class="float-btn call" href="tel:+919907947625" aria-label="Call">Call</a>
+    <a class="float-btn wa" href="https://wa.me/919907947625" target="_blank" rel="noopener"
+      aria-label="WhatsApp">WA</a>
+  </div>
+
+  <div id="lightbox">
+    <button class="close-lightbox" type="button" onclick="closeLightbox()" aria-label="Close gallery">Close</button>
+    <img src="" alt="Expanded Sundarban travel photo">
+  </div>
+
+  <div class="modal-overlay" id="bookModal">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="bookTitle">
+      <button class="close-btn" type="button" onclick="closeModal('bookModal')"
+        aria-label="Close booking form">Close</button>
+      <span class="badge-soft">Instant Quote</span>
+      <h2 id="bookTitle">Book your Sundarban expedition</h2>
+      <p>Prefilled WhatsApp to +91 99079 47625. No OTP, no spam.</p>
+      <form id="bookingForm">
+        <label>Package Interested<select id="b_pkg">
+            <option>1 Day - Day Cruise Rs. 1,499</option>
+            <option>2D / 1N - Classic Mangrove Rs. 3,999</option>
+            <option>3D / 2N - Tiger Trail Rs. 6,499</option>
+            <option>4D / 3N - Grand Expedition Rs. 8,999</option>
+            <option>Family Special</option>
+            <option>Couple Honeymoon</option>
+            <option>Group / Student / Corporate</option>
+            <option>Luxury Houseboat</option>
+          </select></label>
+        <div class="form-grid">
+          <label>Full Name<input id="b_name" required autocomplete="name" placeholder="Your name"></label>
+          <label>WhatsApp Number<input id="b_phone" required type="tel" inputmode="tel" autocomplete="tel" placeholder="+91..."></label>
+          <label>Travel Date<input id="b_date" type="date" required></label>
+          <label>Guests<select id="b_guests">
+              <option>2 Guests</option>
+              <option>3-4 Guests</option>
+              <option>5-8 Guests</option>
+              <option>9+ Group</option>
+            </select></label>
+          <label>Pickup<select id="b_pickup">
+              <option>Kolkata to Kolkata</option>
+              <option>Canning to Canning</option>
+              <option>Godkhali to Godkhali</option>
+              <option>Custom</option>
+            </select></label>
+          <label>Food Preference<select id="b_food">
+              <option>Bengali Non-Veg</option>
+              <option>Veg</option>
+              <option>Jain Veg</option>
+              <option>Kids Meal</option>
+            </select></label>
+          <label class="full">Message<textarea id="b_msg" rows="2"
+              placeholder="Any special request?"></textarea></label>
+        </div>
+        <button type="submit" class="btn btn-primary">Continue on WhatsApp</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/mainpagenew.js"></script>
+</body>
+
+</html>
